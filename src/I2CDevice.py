@@ -1,5 +1,3 @@
-import smbus
-
 class I2CDevice(object):
 
     def __init__(self, register_address, i2c_line):
@@ -35,27 +33,18 @@ class I2CDevice(object):
 
     # writes a byte to a register in I2C bus 1
     def write_byte(self, register, value):
-        try:
-            return self.i2c_line.write_byte_data(self.register_address, register, value)
-        except IOError:
-            return None
+        return self.i2c_line.write_byte_data(self.register_address, register, value)
 
     # reads a byte from I2C bus 1
     def read_byte(self, register):
-        try:
-            return self.i2c_line.read_byte_data(self.register_address, register)
-        except IOError:
-            return None
+        return self.i2c_line.read_byte_data(self.register_address, register)
 
     # reads a word from I2C bus 1
     def read_word(self, register):
-        try:
-            high = self.i2c_line.read_byte_data(self.register_address, register)
-            low = self.i2c_line.read_byte_data(self.register_address, register + 1)
-            val = (high << 8) + low
-            return val
-        except IOError:
-            return None
+        high = self.i2c_line.read_byte_data(self.register_address, register)
+        low = self.i2c_line.read_byte_data(self.register_address, register + 1)
+        val = (high << 8) + low
+        return val
 
     # converts word reading into complement of 2
     def read_word_2c(self, register):
